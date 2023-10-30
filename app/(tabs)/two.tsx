@@ -7,7 +7,7 @@ import { Text, View } from "../../components/Themed";
 import Slider from "@react-native-community/slider";
 import { Button } from "react-native-elements";
 
-import { MMKV } from "react-native-mmkv";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const quotes = [
   "In the midst of chaos, find your calm; it's the eye of the storm where clarity resides.",
@@ -35,12 +35,33 @@ const quotes = [
 let i = Math.floor(Math.random() * quotes.length);
 let z = Math.floor(Math.random() * quotes.length);
 
-export const storage = new MMKV();
-
 export default function TabTwoScreen() {
-  storage.getAllKeys();
   const [value, setValue] = useState(0);
+  const [state, setState] = useState(0);
+  AsyncStorage.getAllKeys();
 
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("actionTime", value);
+    } catch (e) {
+      // saving error
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("actionTime");
+      console.log(value);
+      if (value !== null) {
+        // value previously stored
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
+
+  storeData((value * 1000).toString());
+  getData().then((v) => {});
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Settings</Text>

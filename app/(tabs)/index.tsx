@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Button, Card } from "react-native-elements";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const cardData = [
   {
@@ -29,8 +30,31 @@ export default function TabOneScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
 
-  let animations = useRef(null);
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("actionTime", value);
+    } catch (e) {
+      // saving error
+    }
+  };
 
+  let value = 2000;
+
+  const getData = async () => {
+    try {
+      value = parseFloat(await AsyncStorage.getItem("actionTime"));
+      console.log(value);
+      if (value !== null) {
+        // value previously stored
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
+
+  let animations = useRef(null);
+  getData();
+  console.log(value);
   const openModal = (card) => {
     setSelectedCard(card);
     setModalVisible(true);
@@ -74,18 +98,18 @@ export default function TabOneScreen() {
           animateShape(
             trianglePosition,
             [
-              { value: 0, duration: 1000 },
-              { value: 0.5, duration: 500 },
-              { value: 0.75, duration: 1000 },
-              { value: 1, duration: 500 },
-              { value: 0.25, duration: 750 },
+              { value: 0, duration: value },
+              { value: 0.5, duration: value },
+              { value: 0.75, duration: value },
+              { value: 1, duration: value },
+              { value: 0.25, duration: value },
             ],
             [
-              { value: 0, duration: 1000 },
-              { value: 0.25, duration: 500 },
-              { value: 0.5, duration: 750 },
-              { value: 0.75, duration: 500 },
-              { value: 1, duration: 1000 },
+              { value: 0, duration: value },
+              { value: 0.25, duration: value },
+              { value: 0.5, duration: value },
+              { value: 0.75, duration: value },
+              { value: 1, duration: value },
             ],
             true
           );
@@ -94,16 +118,16 @@ export default function TabOneScreen() {
           animateShape(
             squarePosition,
             [
-              { value: 1, duration: 2000 },
-              { value: 1, duration: 2000 },
-              { value: 0, duration: 2000 },
-              { value: 0, duration: 2000 },
+              { value: 1, duration: value },
+              { value: 1, duration: value },
+              { value: 0, duration: value },
+              { value: 0, duration: value },
             ],
             [
-              { value: 0, duration: 2000 },
-              { value: 1, duration: 2000 },
-              { value: 1, duration: 2000 },
-              { value: 0, duration: 2000 },
+              { value: 0, duration: value },
+              { value: 1, duration: value },
+              { value: 1, duration: value },
+              { value: 0, duration: value },
             ],
             true
           );
