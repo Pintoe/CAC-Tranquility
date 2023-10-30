@@ -40,20 +40,7 @@ export default function TabOneScreen() {
 
   let value = 2000;
 
-  const getData = async () => {
-    try {
-      value = parseFloat(await AsyncStorage.getItem("actionTime"));
-      console.log(value);
-      if (value !== null) {
-        // value previously stored
-      }
-    } catch (e) {
-      // error reading value
-    }
-  };
-
   let animations = useRef(null);
-  getData();
   console.log(value);
   const openModal = (card) => {
     setSelectedCard(card);
@@ -92,50 +79,63 @@ export default function TabOneScreen() {
 
   useEffect(() => {
     if (modalVisible) {
+      const g = async () => {
+        try {
+          value = parseFloat(await AsyncStorage.getItem("actionTime"));
+          console.log(value);
+          if (value !== null) {
+            console.log(value, "here");
+            switch (selectedCard?.title) {
+              case "Triangle":
+                animateShape(
+                  trianglePosition,
+                  [
+                    { value: 0, duration: value },
+                    { value: 0.5, duration: value },
+                    { value: 0.75, duration: value },
+                    { value: 1, duration: value },
+                    { value: 0.25, duration: value },
+                  ],
+                  [
+                    { value: 0, duration: value },
+                    { value: 0.25, duration: value },
+                    { value: 0.5, duration: value },
+                    { value: 0.75, duration: value },
+                    { value: 1, duration: value },
+                  ],
+                  true
+                );
+                break;
+              case "Square":
+                animateShape(
+                  squarePosition,
+                  [
+                    { value: 1, duration: value },
+                    { value: 1, duration: value },
+                    { value: 0, duration: value },
+                    { value: 0, duration: value },
+                  ],
+                  [
+                    { value: 0, duration: value },
+                    { value: 1, duration: value },
+                    { value: 1, duration: value },
+                    { value: 0, duration: value },
+                  ],
+                  true
+                );
+                break;
+              // Add similar animations for other shapes here
+              default:
+                break;
+            }
+          }
+        } catch (e) {
+          // error reading value
+        }
+      };
+
+      g();
       // Start the appropriate animation based on the selected card
-      switch (selectedCard?.title) {
-        case "Triangle":
-          animateShape(
-            trianglePosition,
-            [
-              { value: 0, duration: value },
-              { value: 0.5, duration: value },
-              { value: 0.75, duration: value },
-              { value: 1, duration: value },
-              { value: 0.25, duration: value },
-            ],
-            [
-              { value: 0, duration: value },
-              { value: 0.25, duration: value },
-              { value: 0.5, duration: value },
-              { value: 0.75, duration: value },
-              { value: 1, duration: value },
-            ],
-            true
-          );
-          break;
-        case "Square":
-          animateShape(
-            squarePosition,
-            [
-              { value: 1, duration: value },
-              { value: 1, duration: value },
-              { value: 0, duration: value },
-              { value: 0, duration: value },
-            ],
-            [
-              { value: 0, duration: value },
-              { value: 1, duration: value },
-              { value: 1, duration: value },
-              { value: 0, duration: value },
-            ],
-            true
-          );
-          break;
-        // Add similar animations for other shapes here
-        default:
-          break;
-      }
     }
   }, [modalVisible, selectedCard]);
 
