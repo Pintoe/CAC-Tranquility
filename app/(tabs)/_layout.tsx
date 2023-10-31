@@ -31,7 +31,7 @@ export default function TabLayout() {
             <TabBarIcon name="balance-scale" color={color} />
           ),
           headerRight: () => (
-            <Link href="/modal" asChild>
+            <Link href="/Information" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <FontAwesome

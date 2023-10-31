@@ -90,17 +90,15 @@ export default function TabOneScreen() {
                 animateShape(
                   trianglePosition,
                   [
-                    { value: 0, duration: value },
+                    { value: 0, duration: 1 },
                     { value: 0.5, duration: value },
-                    { value: 0.75, duration: value },
                     { value: 1, duration: value },
-                    { value: 0.25, duration: value },
+                    { value: 0, duration: value },
                   ],
                   [
+                    { value: 1, duration: 1 },
                     { value: 0, duration: value },
-                    { value: 0.25, duration: value },
-                    { value: 0.5, duration: value },
-                    { value: 0.75, duration: value },
+                    { value: 1, duration: value },
                     { value: 1, duration: value },
                   ],
                   true
@@ -146,11 +144,11 @@ export default function TabOneScreen() {
   const triangleInterpolation = {
     translateX: trianglePosition.x.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, 100],
+      outputRange: [-100, 100],
     }),
     translateY: trianglePosition.y.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, 100],
+      outputRange: [-225, -50],
     }),
   };
   const squareInterpolation = {

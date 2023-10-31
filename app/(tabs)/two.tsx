@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
 import Slider from "@react-native-community/slider";
-import { Button } from "react-native-elements";
+import { Button, Image } from "react-native-elements";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -35,10 +35,10 @@ const quotes = [
 let i = Math.floor(Math.random() * quotes.length);
 let z = Math.floor(Math.random() * quotes.length);
 
+let logoSource = require("../../assets/images/Tranquility.png");
+
 export default function TabTwoScreen() {
-  const [value, setValue] = useState(0);
-  const [state, setState] = useState(0);
-  AsyncStorage.getAllKeys();
+  const [value, setValue] = useState(2.5);
 
   const storeData = async (value) => {
     try {
@@ -61,45 +61,58 @@ export default function TabTwoScreen() {
   };
 
   storeData((value * 1000).toString());
-  getData().then((v) => {});
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Settings</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <Text style={styles.text}> {quotes[i]} </Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <Text style={styles.smallerText}>
-        {" "}
-        Please Select the Time Between Actions:{" "}
-      </Text>
-      <Text>{Math.floor(value * 10) / 10} Seconds</Text>
-      <Slider
-        style={{ width: 200, height: 40 }}
-        minimumValue={0.5}
-        maximumValue={4}
-        step={0.1}
-        onValueChange={setValue}
-        minimumTrackTintColor="#FFFFFF"
-        maximumTrackTintColor="#000000"
-      />
+      <View style={styles.contentView}>
+        <Text style={styles.title}>Settings</Text>
+        <View
+          style={styles.separator}
+          lightColor="#eee"
+          darkColor="rgba(255,255,255,0.1)"
+        />
+        <Text style={styles.text}> "{quotes[i]}" - Anonymous </Text>
+        <View
+          style={styles.separator}
+          lightColor="#eee"
+          darkColor="rgba(255,255,255,0.1)"
+        />
+        <Text style={styles.smallerText}>
+          Please Select the Time Between Actions:
+        </Text>
+        <Text>{Math.round(value * 10) / 10} Seconds</Text>
+        <Slider
+          style={{ width: 200, height: 40 }}
+          minimumValue={1}
+          maximumValue={4}
+          thumbTintColor="#D3D3D3"
+          step={0.1}
+          value={value}
+          onValueChange={setValue}
+          minimumTrackTintColor="#FFFFFF"
+          maximumTrackTintColor="#808080"
+        />
+        <View
+          style={styles.separator}
+          lightColor="#eee"
+          darkColor="rgba(255,255,255,0.1)"
+        />
+        <Image source={logoSource} style={styles.logo} />
+      </View>
+
+      <View style={styles.bottomText}>
+        <Text>Made with Passion - Darren Pinto</Text>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  contentView: {
-    padding: 20,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "stretch",
+  logo: {
+    width: 150, // Adjust the width as needed
+    height: 150, // Adjust the height as needed
+    resizeMode: "fit", // Modify as needed
+    marginBottom: 0, // Add margin bottom as needed
   },
   verticalContent: {
     padding: 20,
@@ -143,5 +156,16 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: "80%",
+  },
+  contentView: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  bottomText: {
+    flex: 0.1,
+    justifyContent: "flex-end",
+    marginBottom: 20,
   },
 });
