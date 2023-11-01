@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
   logo: {
     width: 150, // Adjust the width as needed
     height: 150, // Adjust the height as needed
-    resizeMode: "fit", // Modify as needed
     marginBottom: 0, // Add margin bottom as needed
   },
   verticalContent: {
